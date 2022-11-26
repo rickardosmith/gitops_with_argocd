@@ -18,6 +18,9 @@ applications:
       repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
       targetRevision: HEAD
     syncPolicy:
+      automated:
+        selfHeal: true
+        prune: true
       syncOptions:
       - CreateNamespace=true
   - name: argocd-apps
