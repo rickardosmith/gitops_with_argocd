@@ -79,9 +79,12 @@ server:
 configs:
   secret:
     argocdServerAdminPassword: $2a$12$27gebflYnPpIhd.revPke.WJ2dktVwq5xjvDtama/r4xCky2Jc/My
-  repositories: |
-    - type: git
+  repositories:
+    gitops-repo:
       url: https://github.com/rickardosmith/gitops_with_argocd.git
-    - name: argo-helm
-      type: helm
+      name: gitops
+      type: git
+    argocd-heml-repo:
       url: https://argoproj.github.io/argo-helm
+      name: argocd-helm
+      type: helm
