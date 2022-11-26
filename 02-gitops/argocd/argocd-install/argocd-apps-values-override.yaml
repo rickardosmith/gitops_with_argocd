@@ -1,0 +1,125 @@
+# -- Deploy Argo CD Applications within this helm release
+# @default -- `[]` (See [values.yaml])
+## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/
+applications:
+  - name: argocd
+    namespace: argocd
+    destination:
+      namespace: argocd
+      server: https://kubernetes.default.svc
+    project: argocd
+    source:
+      helm:
+        version: v3
+        valueFiles:
+        - values.yaml
+        - ../argocd-install-values-override.yaml
+      path: 02-gitops/argocd/argocd-install/argo-cd
+      repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+      targetRevision: HEAD
+    syncPolicy:
+      automated:
+        selfHeal: true
+        prune: true
+      syncOptions:
+      - CreateNamespace=true
+  - name: argocd-apps
+    namespace: argocd
+    destination:
+      namespace: argocd
+      server: https://kubernetes.default.svc
+    project: argocd
+    source:
+      helm:
+        version: v3
+        valueFiles:
+        - values.yaml
+        - ../argocd-apps-values-override.yaml
+      path: 02-gitops/argocd/argocd-install/argocd-apps
+      repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+      targetRevision: HEAD
+    syncPolicy:
+      automated:
+        selfHeal: true
+        prune: true
+      syncOptions:
+      - CreateNamespace=true
+  - name: argocd-appprojects
+    namespace: argocd
+    destination:
+      namespace: argocd
+      server: https://kubernetes.default.svc
+    project: argocd
+    source:
+      path: 02-gitops/argocd/argocd-appprojects
+      repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+      targetRevision: HEAD
+      directory:
+        recurse: true
+        jsonnet: {}
+    syncPolicy:
+      automated:
+        selfHeal: true
+        prune: true
+
+# -- Deploy Argo CD Projects within this helm release
+# @default -- `[]` (See [values.yaml])
+## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/
+projects:
+  - name: argocd
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    description: Argocd Project
+    sourceRepos:
+    - '*'
+    destinations:
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+    clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+    orphanedResources:
+      warn: false
+
+
+# -- Deploy Argo CD ApplicationSets within this helm release
+# @default -- `[]` (See [values.yaml])
+## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/
+applicationsets:
+- name: applications
+  namespace: argocd
+  additionalLabels: {}
+  additionalAnnotations: {}
+  # See PR #10026 (ArgoCD v2.5 or later)
+  # goTemplate: false
+  generators:
+  - git:
+      repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+      revision: HEAD
+      directories:
+        - path: 03-applications/*
+  template:
+    metadata:
+      name: '{{path.basename}}'
+      labels: {}
+      annotations: {}
+    spec:
+      project: ecommerce
+      source:
+        repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+          allowEmpty: true
+        syncOptions: 
+          - CreateNamespace=true
+  syncPolicy:
+    # Set Application finalizer
+    preserveResourcesOnDeletion: false
