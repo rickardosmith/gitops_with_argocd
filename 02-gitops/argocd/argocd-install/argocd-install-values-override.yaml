@@ -9,10 +9,17 @@ configs:
       url: https://github.com/rickardosmith/gitops_with_argocd.git
       name: gitops
       type: git
-    argocd-heml-repo:
+    argocd-helm-repo:
       url: https://argoproj.github.io/argo-helm
       name: argocd-helm
       type: helm
-
+    bitnami-helm-repo:
+      url: https://charts.bitnami.com/bitnami
+      name: bitnami-helm
+      type: helm
+    grafana-helm-repo:
+      url: https://grafana.github.io/helm-charts
+      name: grafana-helm
+      type: helm
 dex:
   enabled: false
