@@ -9,8 +9,8 @@ spec:
     server: https://kubernetes.default.svc
   project: monitoring
   source:
-    repoURL: https://grafana.github.io/helm-charts
-    targetRevision: loki-stack-2.8.7
+    repoURL: 'https://grafana.github.io/helm-charts'
+    targetRevision: 2.8.7
     chart: loki-stack
     helm:
       values: |
