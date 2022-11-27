@@ -123,3 +123,39 @@ applicationsets:
   syncPolicy:
     # Set Application finalizer
     preserveResourcesOnDeletion: false
+- name: monitoring
+  namespace: argocd
+  additionalLabels: {}
+  additionalAnnotations: {}
+  # See PR #10026 (ArgoCD v2.5 or later)
+  # goTemplate: false
+  generators:
+  - git:
+      repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+      revision: HEAD
+      directories:
+        - path: 99-monitoring/*
+  template:
+    metadata:
+      name: '{{path.basename}}'
+      labels: {}
+      annotations: {}
+    spec:
+      project: monitoring
+      source:
+        repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: monitoring
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+          allowEmpty: true
+        syncOptions: 
+          - CreateNamespace=true
+  syncPolicy:
+    # Set Application finalizer
+    preserveResourcesOnDeletion: false
