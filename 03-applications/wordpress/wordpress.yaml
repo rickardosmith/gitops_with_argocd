@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wordpress
+  namespace: argocd
+spec:
+  destination:
+    namespace: marketing
+    server: https://kubernetes.default.svc
+  project: marketing
+  source:
+    repoURL: 'https://charts.bitnami.com/bitnami'
+    targetRevision: 15.2.16
+    chart: wordpress
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
