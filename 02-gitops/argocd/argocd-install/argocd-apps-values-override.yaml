@@ -89,7 +89,7 @@ projects:
 # @default -- `[]` (See [values.yaml])
 ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/
 applicationsets:
-- name: applications
+- name: apps-ecommerce
   namespace: argocd
   additionalLabels: {}
   additionalAnnotations: {}
@@ -100,13 +100,14 @@ applicationsets:
       repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
       revision: HEAD
       directories:
-        - path: 03-applications/*
+        - path: 03-applications/ecommerce/*
   template:
     metadata:
       name: '{{path.basename}}'
       labels: {}
       annotations: {}
     spec:
+      project: ecommerce
       source:
         repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
         targetRevision: HEAD
@@ -124,7 +125,43 @@ applicationsets:
   syncPolicy:
     # Set Application finalizer
     preserveResourcesOnDeletion: false
-- name: monitoring
+- name: apps-wordpress
+  namespace: argocd
+  additionalLabels: {}
+  additionalAnnotations: {}
+  # See PR #10026 (ArgoCD v2.5 or later)
+  # goTemplate: false
+  generators:
+  - git:
+      repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+      revision: HEAD
+      directories:
+        - path: 03-applications/wordpress/*
+  template:
+    metadata:
+      name: '{{path.basename}}'
+      labels: {}
+      annotations: {}
+    spec:
+      project: marketing
+      source:
+        repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+          allowEmpty: true
+        syncOptions: 
+          - CreateNamespace=true
+  syncPolicy:
+    # Set Application finalizer
+    preserveResourcesOnDeletion: false
+- name: apps-monitoring
   namespace: argocd
   additionalLabels: {}
   additionalAnnotations: {}
