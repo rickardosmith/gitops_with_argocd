@@ -107,7 +107,6 @@ applicationsets:
       labels: {}
       annotations: {}
     spec:
-      project: ecommerce
       source:
         repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
         targetRevision: HEAD
