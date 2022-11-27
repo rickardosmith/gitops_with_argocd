@@ -61,6 +61,8 @@ applications:
       automated:
         selfHeal: true
         prune: true
+      syncOptions:
+      - CreateNamespace=true
 
 # -- Deploy Argo CD Projects within this helm release
 # @default -- `[]` (See [values.yaml])
