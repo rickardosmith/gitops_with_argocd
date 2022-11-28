@@ -1,0 +1,16 @@
+project: monitoring
+source:
+  repoURL: 'https://charts.bitnami.com/bitnami'
+  targetRevision: 13.2.14
+  helm:
+    parameters:
+      - name: service.type
+        value: ClusterIP
+  chart: nginx
+destination:
+  server: 'https://kubernetes.default.svc'
+  namespace: monitoring
+syncPolicy:
+  automated: {}
+  syncOptions:
+    - CreateNamespace=true
