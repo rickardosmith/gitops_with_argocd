@@ -70,9 +70,6 @@ applications:
       path: 02-gitops/argocd/argocd-apps
       repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
       targetRevision: HEAD
-      directory:
-        recurse: true
-        jsonnet: {}
     syncPolicy:
       automated:
         selfHeal: true
