@@ -148,7 +148,7 @@ applicationsets:
         server: https://kubernetes.default.svc
         namespace: '{{path.basename}}'
       syncPolicy:
-        syncOptions: 
+        syncOptions:
           - CreateNamespace=true
   syncPolicy:
     # Set Application finalizer
@@ -180,7 +180,7 @@ applicationsets:
         server: https://kubernetes.default.svc
         namespace: '{{path.basename}}'
       syncPolicy:
-        syncOptions: 
+        syncOptions:
           - CreateNamespace=true
   syncPolicy:
     # Set Application finalizer
@@ -212,7 +212,7 @@ applicationsets:
         server: https://kubernetes.default.svc
         namespace: monitoring
       syncPolicy:
-        syncOptions: 
+        syncOptions:
           - CreateNamespace=true
   syncPolicy:
     # Set Application finalizer

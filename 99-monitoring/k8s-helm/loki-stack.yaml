@@ -40,6 +40,8 @@ spec:
             size: 5Gi
             finalizers:
             - kubernetes.io/pvc-protection
+          deploymentStrategy:
+            type: Recreate
         prometheus:
           enabled: true
         filebeat:

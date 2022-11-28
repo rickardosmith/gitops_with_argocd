@@ -1,0 +1,54 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-yaml
+        exclude: 02-gitops/argocd/argocd-install/
+        args:
+          - --allow-multiple-documents
+      - id: detect-private-key
+        exclude: 02-gitops/argocd/argocd-install/
+      - id: pretty-format-json
+        args:
+          - --autofix
+      - id: trailing-whitespace
+        args:
+          - --markdown-linebreak-ext=md
+
+- repo: https://github.com/antonbabenko/pre-commit-terraform
+  rev: v1.75.0 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
+  hooks:
+    # - id: terraform_validate
+    - id: terraform_fmt
+    # - id: terraform_tflint
+    #   args:
+    #     #- --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
+    #     - --args=--ignore-module "terraform-aws-modules/vpc/aws"
+    #     - --args=--ignore-module "terraform-aws-modules/security-group/aws"
+    #     - --args=--ignore-module "terraform-aws-modules/eks/aws"
+    #     - --args=--ignore-module "terraform-aws-modules/eks/aws"
+    #     - --args=--ignore-module "spotinst/ocean-controller/spotinst"
+    #     - --args=--enable-rule=terraform_documented_variables
+    #     - --args=--enable-rule=terraform_comment_syntax
+    #     - --args=--enable-rule=terraform_deprecated_index
+    #     - --args=--enable-rule=terraform_deprecated_interpolation
+    #     - --args=--enable-rule=terraform_documented_outputs
+    #     - --args=--enable-rule=terraform_documented_variables
+    #     - --args=--enable-rule=terraform_empty_list_equality
+    #     - --args=--enable-rule=terraform_module_pinned_source
+    #     - --args=--enable-rule=terraform_module_version
+    #     - --args=--enable-rule=terraform_naming_convention
+    #     - --args=--enable-rule=terraform_required_providers
+    #     - --args=--enable-rule=terraform_required_version
+    #     - --args=--enable-rule=terraform_typed_variables
+    #     - --args=--enable-rule=terraform_unused_declarations
+    #     - --args=--enable-rule=terraform_unused_required_providers
+    #     - --args=--enable-rule=terraform_workspace_remote
+    # - id: terraform_tfsec
+    # - id: terraform_docs
+    #   args:
+    #     - --hook-config=--path-to-file=README.md        # Valid UNIX path. I.e. ../TFDOC.md or docs/README.md etc.
+    #     - --hook-config=--add-to-existing-file=true     # Boolean. true or false
+    #     - --hook-config=--create-file-if-not-exist=false # Boolean. true or false
