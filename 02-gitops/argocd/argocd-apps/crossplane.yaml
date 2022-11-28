@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crossplane
+  namespace: argocd
+spec:
+  destination:
+    namespace: management
+    server: https://kubernetes.default.svc
+  project: monitoring
+  source:
+    repoURL: https://charts.crossplane.io/stable
+    targetRevision: 1.11.0-rc.0.93.gb9e4773d
+    chart: crossplane
+    helm:
+      values: |
+        provider:
+          packages:
+            - crossplane/provider-aws@v0.34.0
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
