@@ -32,6 +32,12 @@ spec:
             auth.anonymous:
               enabled: true
               org_role: Admin
+          persistence:
+            enabled: true
+            type: pvc
+            accessModes:
+            - ReadWriteOnce
+            size: 5Gi
         prometheus:
           enabled: true
         filebeat:
