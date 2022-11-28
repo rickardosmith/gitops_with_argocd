@@ -63,9 +63,9 @@ applications:
   - name: crossplane
     namespace: argocd
     destination:
-      namespace: management
+      namespace: argocd
       server: https://kubernetes.default.svc
-    project: management
+    project: argocd
     source:
       path: 02-gitops/argocd/argocd-apps
       repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
