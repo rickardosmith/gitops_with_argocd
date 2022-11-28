@@ -1,6 +1,8 @@
 ## ArgoCD configuration
 ## Ref: https://github.com/argoproj/argo-cd
 ##
+global:
+  revisionHistoryLimit: 3
 configs:
   secret:
     argocdServerAdminPassword: $2a$12$27gebflYnPpIhd.revPke.WJ2dktVwq5xjvDtama/r4xCky2Jc/My
