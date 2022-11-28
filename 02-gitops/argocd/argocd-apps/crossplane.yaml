@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: management
     server: https://kubernetes.default.svc
-  project: monitoring
+  project: management
   source:
     repoURL: https://charts.crossplane.io/stable
     targetRevision: 1.11.0-rc.0.93.gb9e4773d
