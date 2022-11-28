@@ -5,9 +5,9 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: argocd
+    namespace: management
     server: https://kubernetes.default.svc
-  project: argocd
+  project: management
   source:
     repoURL: https://charts.crossplane.io/stable
     targetRevision: 1.9.1

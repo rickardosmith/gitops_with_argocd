@@ -60,10 +60,10 @@ applications:
         prune: true
       syncOptions:
       - CreateNamespace=true
-  - name: crossplane
+  - name: management
     namespace: argocd
     destination:
-      namespace: argocd
+      namespace: management
       server: https://kubernetes.default.svc
     project: argocd
     source:
