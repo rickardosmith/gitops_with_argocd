@@ -65,7 +65,7 @@ applications:
     destination:
       namespace: management
       server: https://kubernetes.default.svc
-    project: argocd
+    project: management
     source:
       path: 02-gitops/argocd/argocd-apps
       repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
