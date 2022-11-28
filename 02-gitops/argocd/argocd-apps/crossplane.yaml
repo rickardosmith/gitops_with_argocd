@@ -16,7 +16,7 @@ spec:
       values: |
         provider:
           packages:
-            - xpkg.upbound.io/crossplane-contrib/provider-aws:v0.33.0
+            - xpkg.upbound.io/crossplane-contrib/provider-aws:v0.34.0
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
