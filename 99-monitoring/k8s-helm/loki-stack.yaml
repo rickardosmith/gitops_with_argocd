@@ -23,7 +23,7 @@ spec:
         grafana:
           enabled: true
         prometheus:
-          enabled: false
+          enabled: true
         filebeat:
           enabled: false
         logstash:
