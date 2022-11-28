@@ -38,6 +38,8 @@ spec:
             accessModes:
             - ReadWriteOnce
             size: 5Gi
+            finalizers:
+            - kubernetes.io/pvc-protection
         prometheus:
           enabled: true
         filebeat:
