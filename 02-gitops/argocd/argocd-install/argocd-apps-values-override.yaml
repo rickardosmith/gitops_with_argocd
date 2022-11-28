@@ -41,6 +41,25 @@ applications:
         prune: true
       syncOptions:
       - CreateNamespace=true
+  - name: argocd-appprojects
+    namespace: argocd
+    destination:
+      namespace: argocd
+      server: https://kubernetes.default.svc
+    project: argocd
+    source:
+      path: 02-gitops/argocd/argocd-appprojects
+      repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+      targetRevision: HEAD
+      directory:
+        recurse: true
+        jsonnet: {}
+    syncPolicy:
+      automated:
+        selfHeal: true
+        prune: true
+      syncOptions:
+      - CreateNamespace=true
   - name: crossplane
     namespace: argocd
     destination:
@@ -68,25 +87,6 @@ applications:
     project: monitoring
     source:
       path: 99-monitoring/k8s-helm
-      repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
-      targetRevision: HEAD
-      directory:
-        recurse: true
-        jsonnet: {}
-    syncPolicy:
-      automated:
-        selfHeal: true
-        prune: true
-      syncOptions:
-      - CreateNamespace=true
-  - name: argocd-appprojects
-    namespace: argocd
-    destination:
-      namespace: argocd
-      server: https://kubernetes.default.svc
-    project: argocd
-    source:
-      path: 02-gitops/argocd/argocd-appprojects
       repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
       targetRevision: HEAD
       directory:
