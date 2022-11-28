@@ -41,6 +41,25 @@ applications:
         prune: true
       syncOptions:
       - CreateNamespace=true
+  - name: crossplane
+    namespace: argocd
+    destination:
+      namespace: management
+      server: https://kubernetes.default.svc
+    project: management
+    source:
+      path: 02-gitops/argocd/argocd-apps
+      repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+      targetRevision: HEAD
+      directory:
+        recurse: true
+        jsonnet: {}
+    syncPolicy:
+      automated:
+        selfHeal: true
+        prune: true
+      syncOptions:
+      - CreateNamespace=true
   - name: monitoring
     namespace: argocd
     destination:
