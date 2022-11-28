@@ -16,8 +16,10 @@ spec:
       values: |
         loki:
           enabled: true
+          revisionHistoryLimit: 2
         promtail:
           enabled: true
+          revisionHistoryLimit: 2
         fluent-bit:
           enabled: false
         grafana:
@@ -42,8 +44,10 @@ spec:
             - kubernetes.io/pvc-protection
           deploymentStrategy:
             type: Recreate
+          revisionHistoryLimit: 2
         prometheus:
           enabled: true
+          revisionHistoryLimit: 2
         filebeat:
           enabled: false
         logstash:
