@@ -41,6 +41,27 @@ applications:
         prune: true
       syncOptions:
       - CreateNamespace=true
+  - name: argocd-apps-monitoring
+    namespace: argocd
+    destination:
+      namespace: argocd
+      server: https://kubernetes.default.svc
+    project: argocd
+    source:
+      helm:
+        version: v3
+        valueFiles:
+        - values.yaml
+        - ../argocd-apps-values-override.yaml
+      path: 99-monitoring/k8s-helm
+      repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+      targetRevision: HEAD
+    syncPolicy:
+      automated:
+        selfHeal: true
+        prune: true
+      syncOptions:
+      - CreateNamespace=true
   - name: argocd-appprojects
     namespace: argocd
     destination:
@@ -161,7 +182,7 @@ applicationsets:
       repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
       revision: HEAD
       directories:
-        - path: 99-monitoring/*
+        - path: 99-monitoring/k8s-manifests/*
   template:
     metadata:
       name: '{{path.basename}}'
