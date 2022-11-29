@@ -14,8 +14,6 @@ spec:
     chart: elasticsearch
     helm:
       values: |
-        replicas: 1
-        minimumMasterNodes: 1
         antiAffinity: "soft"
   syncPolicy:
     syncOptions:
