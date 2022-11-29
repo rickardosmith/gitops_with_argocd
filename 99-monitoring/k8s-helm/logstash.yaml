@@ -15,6 +15,21 @@ spec:
     helm:
       values: |
         antiAffinity: "soft"
+        logstashPipeline:
+          logstash.conf: |
+            input {
+              beats {
+                port => 5044
+              }
+            }
+            output {
+              elasticsearch {
+                hosts => "https://elasticsearch-master:9200"
+              }
+            }
+        envFrom:
+          - secretRef:
+              name: elasticsearch-master-credentials
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
