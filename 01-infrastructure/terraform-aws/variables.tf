@@ -18,19 +18,19 @@ variable "vpc_cidr" {
 variable "number_of_azs" {
   type        = number
   description = "Number of Availability Zones."
-  default     = 3
+  default     = 2
 }
 
 variable "private_subnets" {
   type        = list(string)
   description = "VPC Private Subnets."
-  default     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
 variable "public_subnets" {
   type        = list(string)
   description = "VPC Public Subnets."
-  default     = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+  default     = ["10.0.101.0/24", "10.0.102.0/24"]
 }
 
 variable "private_subnet_tags" {
@@ -95,10 +95,34 @@ variable "eks_addon_version" {
   }
 }
 
+variable "eks_managed_node_groups_min_size" {
+  type        = number
+  description = "Auto-Scaling Group Minimum Size"
+  default     = 1
+}
+
+variable "eks_managed_node_groups_desired_size" {
+  type        = number
+  description = "Auto-Scaling Group Desired Size"
+  default     = 1
+}
+
+variable "eks_managed_node_groups_max_size" {
+  type        = number
+  description = "Auto-Scaling Group Maximum Size"
+  default     = 2
+}
+
+variable "eks_managed_node_groups_disk_size" {
+  type        = number
+  description = "Auto-Scaling Group Instances Disk Size"
+  default     = 30
+}
+
 variable "whitelist_ec2_instance_types" {
   type        = list(string)
   description = "List of Allow EC2 Instance Types."
-  default     = ["t3a.medium", "t3a.large"]
+  default     = ["t3a.xlarge"]
 }
 
 
