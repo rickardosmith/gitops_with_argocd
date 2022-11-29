@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubecost
+  namespace: argocd
+spec:
+  destination:
+    namespace: monitoring
+    server: https://kubernetes.default.svc
+  project: monitoring
+  source:
+    repoURL: 'https://mesosphere.github.io/charts/stable'
+    targetRevision: 0.29.0
+    chart: kubecost
+    helm:
+      values: |
+        cost-analyzer:
+          enabled: true
+
+          global:
+            prometheus:
+              # If false, Prometheus will not be installed -- only actively supported on paid Kubecost plans
+              enabled: false
+            thanos:
+              enabled: false
+            grafana:
+              # If false, Grafana will not be installed
+              enabled: false
+            notifications:
+              alertmanager:
+                # If true, allow kubecost to write to alertmanager
+                enabled: false
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
+  revisionHistoryLimit: 3
