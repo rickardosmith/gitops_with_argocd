@@ -67,8 +67,8 @@ locals {
       local.tags)
 
       tags        = local.tags
-      name        = "eks-nodes"
-      description = "EKS managed node group."
+      name        = var.eks_managed_node_group_instances_name
+      description = "EKS managed node group EC2 instance."
     }
   }
 

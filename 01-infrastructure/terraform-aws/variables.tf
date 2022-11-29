@@ -95,6 +95,12 @@ variable "eks_addon_version" {
   }
 }
 
+variable "eks_managed_node_group_instances_name" {
+  type        = string
+  description = "Name that attached to the EC2 instances"
+  default     = "eks-nodes"
+}
+
 variable "eks_managed_node_groups_min_size" {
   type        = number
   description = "Auto-Scaling Group Minimum Size"
