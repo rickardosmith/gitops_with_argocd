@@ -20,16 +20,16 @@ spec:
           global:
             prometheus:
               # If false, Prometheus will not be installed -- only actively supported on paid Kubecost plans
-              enabled: false
+              enabled: true
             thanos:
               enabled: false
             grafana:
               # If false, Grafana will not be installed
-              enabled: false
+              enabled: true
             notifications:
               alertmanager:
                 # If true, allow kubecost to write to alertmanager
-                enabled: false
+                enabled: true
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
