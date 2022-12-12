@@ -8,6 +8,11 @@ spec:
     region: us-east-1
     imageId: ami-0b0dcb5067f052a63
     instanceType: t2.medium
+    instanceMarketOptions:
+      marketType: spot
+      spotOptions:
+        instanceInterruptionBehavior: terminate
+        spotInstanceType: persistent
     tags:
       - key: Name
         value: crossplane-managed-instance
