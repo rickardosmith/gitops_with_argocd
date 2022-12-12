@@ -7,3 +7,5 @@ spec:
   forProvider:
     region: us-east-1
     imageId: ami-0b0dcb5067f052a63
+  providerRef:
+    name:  aws-provider

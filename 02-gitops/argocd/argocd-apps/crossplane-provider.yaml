@@ -15,7 +15,7 @@ metadata:
   name: provider-aws
   namespace: crossplane-system
 spec:
-  package: crossplane/provider-aws:v0.15.0
+  package: crossplane/provider-aws:v0.22.0
   controllerConfigRef:
     name: aws-config
 ---
