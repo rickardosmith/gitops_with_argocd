@@ -1,7 +1,7 @@
 apiVersion: ec2.aws.crossplane.io/v1alpha1
 kind: Instance
 metadata:
-  name: crossplane-managed-instance
+  name: cmi-example
   namespace: crossplane-system
 spec:
   forProvider:
@@ -15,7 +15,43 @@ spec:
         spotInstanceType: persistent
     tags:
       - key: Name
-        value: crossplane-managed-instance
+        value: cmi-example
+  providerConfigRef:
+    name: aws-provider
+  providerRef:
+    name: provider-aws
+---
+apiVersion: ec2.aws.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  name: cmi-http-server
+  namespace: crossplane-system
+spec:
+  forProvider:
+    region: us-east-1
+    imageId: ami-0b0dcb5067f052a63
+    instanceType: t2.medium
+    instanceMarketOptions:
+      marketType: spot
+      spotOptions:
+        instanceInterruptionBehavior: terminate
+        spotInstanceType: persistent
+    tags:
+      - key: Name
+        value: cmi-http-server
+    userData: |
+        #!/bin/bash
+        yum update -y
+        amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
+        yum install -y httpd mariadb-server
+        systemctl start httpd
+        systemctl enable httpd
+        usermod -a -G apache ec2-user
+        chown -R ec2-user:apache /var/www
+        chmod 2775 /var/www
+        find /var/www -type d -exec chmod 2775 {} \;
+        find /var/www -type f -exec chmod 0664 {} \;
+        echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
   providerConfigRef:
     name: aws-provider
   providerRef:
