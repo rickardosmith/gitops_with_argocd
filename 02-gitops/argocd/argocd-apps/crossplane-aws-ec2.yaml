@@ -11,8 +11,8 @@ spec:
     instanceMarketOptions:
       marketType: spot
       spotOptions:
-        instanceInterruptionBehavior: terminate
-        spotInstanceType: one-time
+        instanceInterruptionBehavior: hibernate
+        spotInstanceType: persistent
     tags:
       - key: Name
         value: cmi-example
@@ -34,8 +34,8 @@ spec:
     instanceMarketOptions:
       marketType: spot
       spotOptions:
-        instanceInterruptionBehavior: terminate
-        spotInstanceType: one-time
+        instanceInterruptionBehavior: hibernate
+        spotInstanceType: persistent
     tags:
       - key: Name
         value: cmi-http-server
