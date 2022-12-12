@@ -37,7 +37,8 @@ locals {
     iam_role_additional_policies = [
       "arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess",
       "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
-      "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+      "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+      "arn:aws:iam::aws:policy/PowerUserAccess"
     ]
     # We are using the IRSA created below for permissions
     # However, we have to provision a new cluster with the policy attached FIRST
