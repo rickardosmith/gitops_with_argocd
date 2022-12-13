@@ -3,7 +3,7 @@ kind: ControllerConfig
 metadata:
   name: aws-config
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::113067560560:role/gitops-cluster-20221212162213352700000003
+    eks.amazonaws.com/role-arn: arn:aws:iam::113067560560:role/gitops-cluster-2022121316464815770000000a
 spec:
   podSecurityContext:
     fsGroup: 2000
