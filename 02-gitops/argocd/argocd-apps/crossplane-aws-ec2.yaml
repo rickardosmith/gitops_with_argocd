@@ -189,9 +189,9 @@ spec:
     #     instanceInterruptionBehavior: hibernate
     #     spotInstanceType: persistent
     securityGroupRefs:
-     - name: web-traffic-sg
+      - name: web-traffic-sg
     subnetIdRef:
-     - name: crossplane-subnet1
+      - name: crossplane-subnet1
     tags:
       - key: Name
         value: crossplane-ec2-instance

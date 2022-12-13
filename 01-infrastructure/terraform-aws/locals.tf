@@ -58,7 +58,7 @@ locals {
       desired_size   = var.eks_managed_node_groups_desired_size
       max_size       = var.eks_managed_node_groups_max_size
       instance_types = var.whitelist_ec2_instance_types
-      capacity_type  = "SPOT"
+      capacity_type  = "ON_DEMAND"
       disk_size      = var.eks_managed_node_groups_disk_size
 
       labels = merge({
