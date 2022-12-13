@@ -100,12 +100,23 @@ spec:
       name: crossplane-vpc
     groupName: web-traffic-sg
     description: Allow Web Traffic Access
+    egress:
+      # AWS will treat it as all ports any protocol
+      - ipProtocol: '-1'
+        ipRanges:
+          - cidrIp: 0.0.0.0/0
+    # ingress:
+    #   - fromPort: 5432
+    #     ipProtocol: tcp
+    #     ipRanges:
+    #       - cidrIp: 10.0.0.0/8
+    #     toPort: 5432
   providerConfigRef:
     name: aws-provider
   providerRef:
     name: provider-aws
 ---
-apiVersion: ec2.aws.crossplane.io/v1beta1
+apiVersion: ec2.aws.crossplane.io/v1alpha1
 kind: SecurityGroupRule
 metadata:
   name: http-sg-rule
@@ -113,20 +124,20 @@ metadata:
 spec:
   forProvider:
     region: us-east-1
-    sourceSecurityGroupIdRef:
-      name: web-traffic-sg
-    description: HTTP
-    type: ingress
+    protocol: "tcp"
     fromPort: 80
     toPort: 80
-    protocol: tcp
+    type: "ingress"
+    securityGroupIdRef:
+      name: web-traffic-sg
     cidrBlock: "0.0.0.0/0"
+    description: "HTTP"
   providerConfigRef:
     name: aws-provider
   providerRef:
     name: provider-aws
 ---
-apiVersion: ec2.aws.crossplane.io/v1beta1
+apiVersion: ec2.aws.crossplane.io/v1alpha1
 kind: SecurityGroupRule
 metadata:
   name: https-sg-rule
@@ -134,35 +145,14 @@ metadata:
 spec:
   forProvider:
     region: us-east-1
-    sourceSecurityGroupIdRef:
-      name: web-traffic-sg
-    description: HTTPS
-    type: ingress
+    protocol: "tcp"
     fromPort: 443
     toPort: 443
-    protocol: tcp
-    cidrBlock: 0.0.0.0/0
-  providerConfigRef:
-    name: aws-provider
-  providerRef:
-    name: provider-aws
----
-apiVersion: ec2.aws.crossplane.io/v1beta1
-kind: SecurityGroupRule
-metadata:
-  name: egress-sg-rule
-  namespace: crossplane-system
-spec:
-  forProvider:
-    region: us-east-1
-    sourceSecurityGroupIdRef:
+    type: "ingress"
+    securityGroupIdRef:
       name: web-traffic-sg
-    description: All
-    type: egress
-    fromPort: 0
-    toPort: 0
-    protocol: '-1'
     cidrBlock: "0.0.0.0/0"
+    description: "HTTPS"
   providerConfigRef:
     name: aws-provider
   providerRef:
