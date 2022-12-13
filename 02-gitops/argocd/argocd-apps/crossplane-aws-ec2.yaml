@@ -168,11 +168,6 @@ spec:
     region: us-east-1
     imageId: ami-0b0dcb5067f052a63
     instanceType: t3a.medium
-    # instanceMarketOptions:
-    #   marketType: spot
-    #   spotOptions:
-    #     instanceInterruptionBehavior: hibernate
-    #     spotInstanceType: persistent
     securityGroupRefs:
       - name: web-traffic-sg
     subnetIdRef:
