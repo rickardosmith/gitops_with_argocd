@@ -1,0 +1,173 @@
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: VPC
+metadata:
+  name: crossplane-vpc
+spec:
+  forProvider:
+    region: us-east-1
+    cidrBlock: 10.10.0.0/16
+    enableDnsSupport: true
+    enableDnsHostNames: true
+    instanceTenancy: default
+  providerConfigRef:
+    name: aws-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: InternetGateway
+metadata:
+  name: crossplane-ig
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: crossplane-vpc
+  providerConfigRef:
+    name: aws-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  name: crossplane-subnet1
+spec:
+  forProvider:
+    region: us-east-1
+    availabilityZone: us-east-1b
+    cidrBlock: 10.10.1.0/24
+    vpcIdRef:
+      name: crossplane-vpc
+    mapPublicIPOnLaunch: true
+  providerConfigRef:
+    name: aws-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  name: crossplane-subnet2
+spec:
+  forProvider:
+    region: us-east-1
+    availabilityZone: us-east-1c
+    cidrBlock: 10.10.2.0/24
+    vpcIdRef:
+      name: crossplane-vpc
+    mapPublicIPOnLaunch: true
+  providerConfigRef:
+    name: aws-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: RouteTable
+metadata:
+  name: crossplane-routetable
+spec:
+  forProvider:
+    region: us-east-1
+    routes:
+      - destinationCidrBlock: 0.0.0.0/0
+        gatewayIdRef:
+          name: crossplane-ig
+    associations:
+      - subnetIdRef:
+          name: crossplane-subnet1
+    vpcIdRef:
+      name: crossplane-vpc
+  providerConfigRef:
+    name: aws-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: SecurityGroup
+metadata:
+  name: web-traffic-sg
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: crossplane-vpc
+    groupName: web-traffic-sg
+    description: Allow Web Traffic Access
+    egress:
+      # AWS will treat it as all ports any protocol
+      - ipProtocol: '-1'
+        ipRanges:
+          - cidrIp: 0.0.0.0/0
+  providerConfigRef:
+    name: aws-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: SecurityGroupRule
+metadata:
+  name: http-sg-rule
+spec:
+  forProvider:
+    region: us-east-1
+    securityGroupIdRef:
+      name: web-traffic-sg
+    description: HTTP
+    type: ingress
+    fromPort: 80
+    toPort: 80
+    protocol: tcp
+    cidrBlock: "0.0.0.0/0"
+  providerConfigRef:
+    name: aws-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: SecurityGroupRule
+metadata:
+  name: https-sg-rule
+spec:
+  forProvider:
+    region: us-east-1
+    securityGroupIdRef:
+      name: web-traffic-sg
+    description: HTTPS
+    type: ingress
+    fromPort: 443
+    toPort: 443
+    protocol: tcp
+    cidrBlock: "0.0.0.0/0"
+  providerConfigRef:
+    name: aws-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: SecurityGroupRule
+metadata:
+  name: egress-sg-rule
+spec:
+  forProvider:
+    region: us-east-1
+    securityGroupIdRef:
+      name: web-traffic-sg
+    description: All
+    type: egress
+    fromPort: 0
+    toPort: 0
+    protocol: '-1'
+    cidrBlock: "0.0.0.0/0"
+  providerConfigRef:
+    name: aws-provider
+---
+apiVersion: ec2.aws.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  name: crossplane-ec2-instance
+spec:
+  forProvider:
+    region: us-east-1
+    imageId: ami-0b0dcb5067f052a63
+    instanceType: t3a.medium
+    # instanceMarketOptions:
+    #   marketType: spot
+    #   spotOptions:
+    #     instanceInterruptionBehavior: hibernate
+    #     spotInstanceType: persistent
+    securityGroupRefs:
+     - name: web-traffic-sg
+    subnetIdRef: crossplane-subnet1
+    tags:
+      - key: Name
+        value: crossplane-ec2-instance
+    userData: "IyEgL2Jpbi9iYXNoCnN1ZG8gYXB0LWdldCB1cGRhdGUKc3VkbyBhcHQtZ2V0IGluc3RhbGwgLXkgYXBhY2hlMgpzdWRvIHN5c3RlbWN0bCBzdGFydCBhcGFjaGUyCnN1ZG8gc3lzdGVtY3RsIGVuYWJsZSBhcGFjaGUyCmVjaG8gIlRoZSBwYWdlIHdhcyBjcmVhdGVkIGJ5IHRoZSB1c2VyIGRhdGEiIHwgc3VkbyB0ZWUgL3Zhci93d3cvaHRtbC9pbmRleC5odG1s"
+  providerConfigRef:
+    name: aws-provider
+  providerRef:
+    name: provider-aws
