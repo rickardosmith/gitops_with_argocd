@@ -119,7 +119,7 @@ spec:
   forProvider:
     region: us-east-1
     securityGroupIdRef:
-      name: web-traffic-sg
+      - name: web-traffic-sg
     description: HTTP
     type: ingress
     fromPort: 80
@@ -140,13 +140,13 @@ spec:
   forProvider:
     region: us-east-1
     securityGroupIdRef:
-      name: web-traffic-sg
+      - name: web-traffic-sg
     description: HTTPS
     type: ingress
     fromPort: 443
     toPort: 443
     protocol: tcp
-    cidrBlock: "0.0.0.0/0"
+    cidrBlock: 0.0.0.0/0
   providerConfigRef:
     name: aws-provider
   providerRef:
@@ -161,7 +161,7 @@ spec:
   forProvider:
     region: us-east-1
     securityGroupIdRef:
-      name: web-traffic-sg
+      - name: web-traffic-sg
     description: All
     type: egress
     fromPort: 0
@@ -190,7 +190,8 @@ spec:
     #     spotInstanceType: persistent
     securityGroupRefs:
      - name: web-traffic-sg
-    subnetIdRef: crossplane-subnet1
+    subnetIdRef:
+     - name: crossplane-subnet1
     tags:
       - key: Name
         value: crossplane-ec2-instance
