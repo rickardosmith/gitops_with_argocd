@@ -10,6 +10,9 @@ spec:
     enableDnsSupport: true
     enableDnsHostNames: true
     instanceTenancy: default
+    tags:
+      - key: Name
+        value: crossplane-vpc
   providerConfigRef:
     name: aws-provider
   providerRef:
@@ -25,6 +28,9 @@ spec:
     region: us-east-1
     vpcIdRef:
       name: crossplane-vpc
+    tags:
+      - key: Name
+        value: crossplane-ig
   providerConfigRef:
     name: aws-provider
   providerRef:
@@ -43,6 +49,9 @@ spec:
     vpcIdRef:
       name: crossplane-vpc
     mapPublicIPOnLaunch: true
+    tags:
+      - key: Name
+        value: crossplane-subnet1
   providerConfigRef:
     name: aws-provider
   providerRef:
@@ -61,6 +70,9 @@ spec:
     vpcIdRef:
       name: crossplane-vpc
     mapPublicIPOnLaunch: true
+    tags:
+      - key: Name
+        value: crossplane-subnet2
   providerConfigRef:
     name: aws-provider
   providerRef:
@@ -83,6 +95,9 @@ spec:
           name: crossplane-subnet1
     vpcIdRef:
       name: crossplane-vpc
+    tags:
+      - key: Name
+        value: crossplane-routetable
   providerConfigRef:
     name: aws-provider
   providerRef:
@@ -111,6 +126,9 @@ spec:
     #     ipRanges:
     #       - cidrIp: 10.0.0.0/8
     #     toPort: 5432
+    tags:
+      - key: Name
+        value: crossplane-web-traffic-sg
   providerConfigRef:
     name: aws-provider
   providerRef:

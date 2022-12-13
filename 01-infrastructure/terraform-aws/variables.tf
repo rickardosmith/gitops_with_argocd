@@ -123,7 +123,7 @@ variable "eks_managed_node_groups_disk_size" {
 variable "whitelist_ec2_instance_types" {
   type        = list(string)
   description = "List of Allow EC2 Instance Types."
-  default     = ["t3a.xlarge"]
+  default     = ["t3a.large"]
 }
 
 
