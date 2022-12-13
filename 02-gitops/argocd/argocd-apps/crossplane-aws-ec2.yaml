@@ -118,8 +118,8 @@ metadata:
 spec:
   forProvider:
     region: us-east-1
-    securityGroupIdRef:
-      - name: web-traffic-sg
+    sourceSecurityGroupIdRef:
+      name: web-traffic-sg
     description: HTTP
     type: ingress
     fromPort: 80
@@ -139,8 +139,8 @@ metadata:
 spec:
   forProvider:
     region: us-east-1
-    securityGroupIdRef:
-      - name: web-traffic-sg
+    sourceSecurityGroupIdRef:
+      name: web-traffic-sg
     description: HTTPS
     type: ingress
     fromPort: 443
@@ -160,8 +160,8 @@ metadata:
 spec:
   forProvider:
     region: us-east-1
-    securityGroupIdRef:
-      - name: web-traffic-sg
+    sourceSecurityGroupIdRef:
+      name: web-traffic-sg
     description: All
     type: egress
     fromPort: 0
