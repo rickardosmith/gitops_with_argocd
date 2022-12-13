@@ -11,6 +11,8 @@ spec:
     instanceTenancy: default
   providerConfigRef:
     name: aws-provider
+  providerRef:
+    name: provider-aws
 ---
 apiVersion: ec2.aws.crossplane.io/v1beta1
 kind: InternetGateway
@@ -23,6 +25,8 @@ spec:
       name: crossplane-vpc
   providerConfigRef:
     name: aws-provider
+  providerRef:
+    name: provider-aws
 ---
 apiVersion: ec2.aws.crossplane.io/v1beta1
 kind: Subnet
@@ -38,6 +42,8 @@ spec:
     mapPublicIPOnLaunch: true
   providerConfigRef:
     name: aws-provider
+  providerRef:
+    name: provider-aws
 ---
 apiVersion: ec2.aws.crossplane.io/v1beta1
 kind: Subnet
@@ -53,6 +59,8 @@ spec:
     mapPublicIPOnLaunch: true
   providerConfigRef:
     name: aws-provider
+  providerRef:
+    name: provider-aws
 ---
 apiVersion: ec2.aws.crossplane.io/v1beta1
 kind: RouteTable
@@ -72,6 +80,8 @@ spec:
       name: crossplane-vpc
   providerConfigRef:
     name: aws-provider
+  providerRef:
+    name: provider-aws
 ---
 apiVersion: ec2.aws.crossplane.io/v1beta1
 kind: SecurityGroup
@@ -91,6 +101,8 @@ spec:
           - cidrIp: 0.0.0.0/0
   providerConfigRef:
     name: aws-provider
+  providerRef:
+    name: provider-aws
 ---
 apiVersion: ec2.aws.crossplane.io/v1beta1
 kind: SecurityGroupRule
@@ -109,6 +121,8 @@ spec:
     cidrBlock: "0.0.0.0/0"
   providerConfigRef:
     name: aws-provider
+  providerRef:
+    name: provider-aws
 ---
 apiVersion: ec2.aws.crossplane.io/v1beta1
 kind: SecurityGroupRule
@@ -127,6 +141,8 @@ spec:
     cidrBlock: "0.0.0.0/0"
   providerConfigRef:
     name: aws-provider
+  providerRef:
+    name: provider-aws
 ---
 apiVersion: ec2.aws.crossplane.io/v1beta1
 kind: SecurityGroupRule
@@ -145,6 +161,8 @@ spec:
     cidrBlock: "0.0.0.0/0"
   providerConfigRef:
     name: aws-provider
+  providerRef:
+    name: provider-aws
 ---
 apiVersion: ec2.aws.crossplane.io/v1alpha1
 kind: Instance
