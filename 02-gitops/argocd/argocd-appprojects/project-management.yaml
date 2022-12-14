@@ -10,6 +10,12 @@ spec:
   destinations:
   - namespace: management
     server: https://kubernetes.default.svc
+  - namespace: kube-system
+    server: https://kubernetes.default.svc
+  - namespace: external-dns
+    server: https://kubernetes.default.svc
+  - namespace: karpenter
+    server: https://kubernetes.default.svc
   - namespace: argocd
     server: https://kubernetes.default.svc
   - namespace: crossplane-system
