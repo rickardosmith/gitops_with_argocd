@@ -40,9 +40,9 @@ spec:
 #Requirements that constrain the parameters of provisioned nodes.
 #Operators { In, NotIn } are supported to enable including or excluding values
   requirements:
-    # - key: "node.kubernetes.io/instance-type" #If not included, all instance types are considered
-    #   operator: In
-    #   values: ["m5.large", "m5.2xlarge"]
+    - key: "node.kubernetes.io/instance-type" #If not included, all instance types are considered
+      operator: In
+      values: ["t3a.*"]
     # - key: "topology.kubernetes.io/zone" #If not included, all zones are considered
     #   operator: In
     #   values: ["us-east-1a", "us-east-1b"]
@@ -51,7 +51,7 @@ spec:
       values: ["amd64"]
     - key: "karpenter.sh/capacity-type" #If not included, the webhook for the AWS cloud provider will default to on-demand
       operator: In
-      values: ["spot", "on-demand"]
+      values: ["on-demand"]
   limits:
     resources:
       cpu: 1000

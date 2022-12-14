@@ -74,13 +74,14 @@ locals {
       disk_size      = var.eks_managed_node_groups_disk_size
 
       labels = merge({
-        GithubRepo               = "terraform-aws-eks"
-        GithubOrg                = "terraform-aws-modules"
-        "karpenter.sh/discovery" = local.eks_cluster_name
+        GithubRepo = "terraform-aws-eks"
+        GithubOrg  = "terraform-aws-modules"
         },
       local.tags)
 
-      tags        = local.tags
+      tags = merge(local.tags, {
+        "karpenter.sh/discovery/${local.eks_cluster_name}" = local.eks_cluster_name
+      })
       name        = var.eks_managed_node_group_instances_name
       description = "EKS managed node group EC2 instance."
     }
