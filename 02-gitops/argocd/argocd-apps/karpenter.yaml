@@ -35,7 +35,7 @@ spec:
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
-name: default
+  name: default
 spec:
 #Requirements that constrain the parameters of provisioned nodes.
 #Operators { In, NotIn } are supported to enable including or excluding values
