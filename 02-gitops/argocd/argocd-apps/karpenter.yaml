@@ -23,7 +23,7 @@ spec:
       values: |
         serviceAccount:
           annotations:
-            - eks\.amazonaws\.com/role-arn=arn:aws:iam::113067560560:role/karpenter-controller-gitops
+            - eks\.amazonaws\.com/role-arn: "arn:aws:iam::113067560560:role/karpenter-controller-gitops"
         clusterName: gitops
         clusterEndpoint: https://B21DD134D80A29D5906C438DD0006EF9.gr7.us-east-1.eks.amazonaws.com
         aws:
