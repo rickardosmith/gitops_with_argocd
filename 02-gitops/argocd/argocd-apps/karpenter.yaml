@@ -42,7 +42,15 @@ spec:
   requirements:
     - key: "node.kubernetes.io/instance-type" #If not included, all instance types are considered
       operator: In
-      values: ["t3a.*"]
+      values: ["c5.large","c5a.large", "c5ad.large", "c5d.large", "c6i.large", "t2.medium", "t3.medium", "t3a.medium"]
+    # - key: karpenter.k8s.aws/instance-cpu
+    #   operator: Lt
+    #   values:
+    #   - "9"
+    # - key: karpenter.k8s.aws/instance-memory
+    #   operator: Lt
+    #   values:
+    #   - "16385"
     # - key: "topology.kubernetes.io/zone" #If not included, all zones are considered
     #   operator: In
     #   values: ["us-east-1a", "us-east-1b"]
