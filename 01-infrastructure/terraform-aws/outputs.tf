@@ -32,3 +32,18 @@ output "eks_cluster_role_arn" {
   description = "AWS EKS Cluser IAM Role ARN"
   value       = module.eks.cluster_iam_role_arn
 }
+
+output "eks_cluster_endpoint" {
+  description = "AWS EKS Cluster Endpoint"
+  value       = module.eks.cluster_endpoint
+}
+
+output "karpenter_irsa_iam_role" {
+  description = "Karpenter IRSA IAM Role ARN"
+  value       = module.karpenter_irsa.iam_role_arn
+}
+
+output "karpenter_iam_instance_profile" {
+  description = "Karpenter AWS IAM Instance Profile"
+  value       = aws_iam_instance_profile.karpenter.name
+}

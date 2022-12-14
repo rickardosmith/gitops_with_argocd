@@ -1,0 +1,59 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: karpenter
+  labels:
+    name: karpenter
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: karpenter
+  namespace: argocd
+spec:
+  destination:
+    namespace: karpenter
+    server: https://kubernetes.default.svc
+  project: management
+  source:
+    repoURL: https://charts.karpenter.sh
+    targetRevision: 0.16.3
+    chart: karpenter
+    helm:
+      values: |
+        serviceAccount:
+          annotations:
+            - eks\.amazonaws\.com/role-arn=arn:aws:iam::113067560560:role/karpenter-controller-gitops
+        clusterName: gitops
+        clusterEndpoint: https://B21DD134D80A29D5906C438DD0006EF9.gr7.us-east-1.eks.amazonaws.com
+        aws:
+          defaultInstanceProfile: KarpenterNodeInstanceProfile-gitops
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+  revisionHistoryLimit: 3
+# ---
+# apiVersion: karpenter.sh/v1alpha5
+# kind: Provisioner
+# metadata:
+# name: default
+# spec:
+# #Requirements that constrain the parameters of provisioned nodes.
+# #Operators { In, NotIn } are supported to enable including or excluding values
+#   requirements:
+#     - key: "node.kubernetes.io/instance-type" #If not included, all instance types are considered
+#       operator: In
+#       values: ["m5.large", "m5.2xlarge"]
+#     - key: "topology.kubernetes.io/zone" #If not included, all zones are considered
+#       operator: In
+#       values: ["us-east-1a", "us-east-1b"]
+#     - key: "kubernetes.io/arch" #If not included, all architectures are considered
+#       operator: In
+#       values: ["arm64", "amd64"]
+#     - key: " karpenter.sh/capacity-type" #If not included, the webhook for the AWS cloud provider will default to on-demand
+#       operator: In
+#       values: ["spot", "on-demand"]
+#   provider:
+#     instanceProfile: KarpenterNodeInstanceProfile-eks-karpenter-demo
+#   ttlSecondsAfterEmpty: 30

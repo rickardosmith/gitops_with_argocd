@@ -1,7 +1,19 @@
 locals {
-  tags                = var.tags
-  public_subnet_tags  = var.public_subnet_tags
-  private_subnet_tags = var.private_subnet_tags
+  tags = var.tags
+
+  eks_cluster_name = var.eks_cluster_name
+
+  # Add the appropriate tags on your subnets to allow the AWS Load Balancer Ingress Controller
+  # to create a load balancer using auto-discovery.
+  # https://aws.amazon.com/premiumsupport/knowledge-center/eks-load-balancer-controller-subnets/
+  public_subnet_tags = {
+    "kubernetes.io/role/elb"                          = 1
+    "kubernetes.io/cluster/${local.eks_cluster_name}" = "shared"
+  }
+  private_subnet_tags = {
+    "kubernetes.io/role/internal-elb"                 = 1
+    "kubernetes.io/cluster/${local.eks_cluster_name}" = "shared"
+  }
 
   cluster_addons = {
     coredns = {
@@ -62,8 +74,9 @@ locals {
       disk_size      = var.eks_managed_node_groups_disk_size
 
       labels = merge({
-        GithubRepo = "terraform-aws-eks"
-        GithubOrg  = "terraform-aws-modules"
+        GithubRepo               = "terraform-aws-eks"
+        GithubOrg                = "terraform-aws-modules"
+        "karpenter.sh/discovery" = local.eks_cluster_name
         },
       local.tags)
 
@@ -119,4 +132,12 @@ locals {
       ipv6_cidr_blocks = ["::/0"]
     }
   }
+
+  node_security_group_tags = {
+    # NOTE - if creating multiple security groups with this module, only tag the
+    # security group that Karpenter should utilize with the following tag
+    # (i.e. - at most, only one security group should have this tag in your account)
+    "karpenter.sh/discovery/${local.eks_cluster_name}" = local.eks_cluster_name
+  }
+
 }

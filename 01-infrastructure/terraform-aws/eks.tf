@@ -19,11 +19,15 @@ module "eks" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
+  # Required for Karpenter role below
+  enable_irsa = true
+
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults         = local.eks_managed_node_group_defaults
   eks_managed_node_groups                 = local.eks_managed_node_groups
   cluster_security_group_additional_rules = local.cluster_security_group_additional_rules
   node_security_group_additional_rules    = local.node_security_group_additional_rules
+  node_security_group_tags                = local.node_security_group_tags
 
   tags = local.tags
 }
@@ -45,4 +49,29 @@ module "vpc_cni_irsa" {
   }
 
   tags = local.tags
+}
+
+module "karpenter_irsa" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  version = "5.3.1"
+
+  depends_on = [
+    aws_iam_instance_profile.karpenter
+  ]
+
+  role_name                          = "karpenter-controller-${local.eks_cluster_name}"
+  attach_karpenter_controller_policy = true
+
+  karpenter_tag_key               = "karpenter.sh/discovery/${local.eks_cluster_name}"
+  karpenter_controller_cluster_id = module.eks.cluster_id
+  karpenter_controller_node_iam_role_arns = [
+    module.eks.eks_managed_node_groups["bottlerocket"].iam_role_arn
+  ]
+
+  oidc_providers = {
+    ex = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["karpenter:karpenter"]
+    }
+  }
 }

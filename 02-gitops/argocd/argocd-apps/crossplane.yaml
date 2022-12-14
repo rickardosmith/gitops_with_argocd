@@ -1,3 +1,10 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: crossplane-system
+  labels:
+    name: crossplane-system
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -18,9 +25,27 @@ spec:
           packages:
             - xpkg.upbound.io/crossplane-contrib/provider-aws:v0.34.0
   syncPolicy:
-    syncOptions:
-    - CreateNamespace=true
     automated:
       selfHeal: true
       prune: true
   revisionHistoryLimit: 3
+---
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
+metadata:
+  name: aws-config
+  namespace: crossplane-system
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::113067560560:role/gitops-cluster-2022121316464815770000000a
+spec:
+  podSecurityContext:
+    fsGroup: 2000
+---
+apiVersion: aws.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: aws-provider
+  namespace: crossplane-system
+spec:
+  credentials:
+    source: InjectedIdentity

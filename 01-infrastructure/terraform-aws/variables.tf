@@ -157,6 +157,18 @@ variable "enable_nat_gateway" {
   default     = true
 }
 
+variable "single_nat_gateway" {
+  type        = bool
+  description = "Single NAT Gateway"
+  default     = true
+}
+
+variable "one_nat_gateway_per_az" {
+  type        = bool
+  description = "Enable one NAT per Availability Zone."
+  default     = false
+}
+
 variable "enable_vpn_gateway" {
   type        = bool
   description = "Enable VPN Gateway"
