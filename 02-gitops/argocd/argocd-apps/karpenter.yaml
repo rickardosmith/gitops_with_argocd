@@ -21,6 +21,7 @@ spec:
     chart: karpenter
     helm:
       values: |
+        serviceAccount.annotations."eks\.amazonaws\.com/role-arn": arn:aws:iam::113067560560:role/gitops-cluster-2022121316464815770000000a
         clusterName: gitops
         clusterEndpoint: https://B21DD134D80A29D5906C438DD0006EF9.gr7.us-east-1.eks.amazonaws.com
         aws:
