@@ -49,7 +49,7 @@ spec:
     - key: "kubernetes.io/arch" #If not included, all architectures are considered
       operator: In
       values: ["amd64"]
-    - key: " karpenter.sh/capacity-type" #If not included, the webhook for the AWS cloud provider will default to on-demand
+    - key: "karpenter.sh/capacity-type" #If not included, the webhook for the AWS cloud provider will default to on-demand
       operator: In
       values: ["spot", "on-demand"]
   limits:
