@@ -42,7 +42,7 @@ spec:
   requirements:
     - key: "node.kubernetes.io/instance-type" #If not included, all instance types are considered
       operator: In
-      values: ["c5.large","c5a.large", "c5ad.large", "c5d.large", "c6i.large", "t2.medium", "t3.medium", "t3a.medium"]
+      values: ["t2.medium", "t3.medium", "t3a.medium", "t3a.large", "t3a.xlarge"]
     # - key: karpenter.k8s.aws/instance-cpu
     #   operator: Lt
     #   values:
