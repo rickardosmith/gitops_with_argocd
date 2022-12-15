@@ -17,7 +17,7 @@ spec:
   project: management
   source:
     repoURL: https://charts.karpenter.sh
-    targetRevision: "v0.16.3"
+    targetRevision: "0.16.3"
     chart: karpenter
     helm:
       values: |
