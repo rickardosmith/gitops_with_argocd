@@ -17,13 +17,13 @@ spec:
   project: management
   source:
     repoURL: https://charts.karpenter.sh
-    targetRevision: 0.16.3
+    targetRevision: "v0.16.3"
     chart: karpenter
     helm:
       values: |
-        serviceAccount.annotations."eks\.amazonaws\.com/role-arn": arn:aws:iam::113067560560:role/gitops-cluster-2022121316464815770000000a
+        serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn: arn:aws:iam::113067560560:role/gitops-cluster-20221215023816941900000003
         clusterName: gitops
-        clusterEndpoint: https://B21DD134D80A29D5906C438DD0006EF9.gr7.us-east-1.eks.amazonaws.com
+        clusterEndpoint: https://F6D2A46D5DBC749D4EAD6DCF50296C99.sk1.us-east-1.eks.amazonaws.com
         aws:
           defaultInstanceProfile: KarpenterNodeInstanceProfile-gitops
   syncPolicy:
@@ -37,29 +37,10 @@ kind: Provisioner
 metadata:
   name: default
 spec:
-#Requirements that constrain the parameters of provisioned nodes.
-#Operators { In, NotIn } are supported to enable including or excluding values
   requirements:
-    - key: "node.kubernetes.io/instance-type" #If not included, all instance types are considered
+    - key: karpenter.sh/capacity-type
       operator: In
-      values: ["t2.medium", "t3.medium", "t3a.medium", "t3a.large", "t3a.xlarge"]
-    # - key: karpenter.k8s.aws/instance-cpu
-    #   operator: Lt
-    #   values:
-    #   - "9"
-    # - key: karpenter.k8s.aws/instance-memory
-    #   operator: Lt
-    #   values:
-    #   - "16385"
-    # - key: "topology.kubernetes.io/zone" #If not included, all zones are considered
-    #   operator: In
-    #   values: ["us-east-1a", "us-east-1b"]
-    - key: "kubernetes.io/arch" #If not included, all architectures are considered
-      operator: In
-      values: ["amd64"]
-    - key: "karpenter.sh/capacity-type" #If not included, the webhook for the AWS cloud provider will default to on-demand
-      operator: In
-      values: ["on-demand"]
+      values: ["spot"]
   limits:
     resources:
       cpu: 1000

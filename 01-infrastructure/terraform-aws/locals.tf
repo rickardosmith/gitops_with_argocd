@@ -73,6 +73,11 @@ locals {
       capacity_type  = "ON_DEMAND"
       disk_size      = var.eks_managed_node_groups_disk_size
 
+      iam_role_additional_policies = [
+        # Required by Karpenter
+        "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+      ]
+
       labels = merge({
         GithubRepo = "terraform-aws-eks"
         GithubOrg  = "terraform-aws-modules"
