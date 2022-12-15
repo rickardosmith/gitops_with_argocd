@@ -23,7 +23,7 @@ module "eks" {
   enable_irsa = true
 
   # EKS Managed Node Group(s)
-  eks_managed_node_group_defaults         = local.eks_managed_node_group_defaults
+  # eks_managed_node_group_defaults         = local.eks_managed_node_group_defaults
   eks_managed_node_groups                 = local.eks_managed_node_groups
   cluster_security_group_additional_rules = local.cluster_security_group_additional_rules
   node_security_group_additional_rules    = local.node_security_group_additional_rules

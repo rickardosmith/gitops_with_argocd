@@ -3,6 +3,14 @@ locals {
 
   eks_cluster_name = var.eks_cluster_name
 
+  # Determine Availability Zones List
+  azs          = slice(data.aws_availability_zones.available.names, 0, local.az_net_match)
+  subnet_max   = max(length(var.private_subnets), length(var.public_subnets))
+  az_net_match = local.subnet_max > length(data.aws_availability_zones.available.names[*]) ? length(data.aws_availability_zones.available.names[*]) : local.subnet_max
+
+  # Used to determine correct partition (i.e. - `aws`, `aws-gov`, `aws-cn`, etc.)
+  partition = data.aws_partition.current.partition
+
   # Add the appropriate tags on your subnets to allow the AWS Load Balancer Ingress Controller
   # to create a load balancer using auto-discovery.
   # https://aws.amazon.com/premiumsupport/knowledge-center/eks-load-balancer-controller-subnets/
@@ -36,11 +44,11 @@ locals {
   }
 
   # Control Plane Logging
-  ## "audit",             // enabled by default
-  ## "api",               // enabled by default
-  ## "authenticator",     // enabled by default
-  ## "controllerManager", // disabled by default
-  ## "scheduler",         // disabled by default
+  ## "audit"             // enabled by default
+  ## "api"               // enabled by default
+  ## "authenticator"     // enabled by default
+  ## "controllerManager" // disabled by default
+  ## "scheduler"         // disabled by default
   cluster_enabled_log_types = var.cluster_enabled_log_types
 
   eks_managed_node_group_defaults = {
@@ -49,14 +57,13 @@ locals {
     iam_role_additional_policies = [
       "arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess",
       "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
-      "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
-      "arn:aws:iam::aws:policy/PowerUserAccess"
+      "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
     ]
     # We are using the IRSA created below for permissions
     # However, we have to provision a new cluster with the policy attached FIRST
     # before we can disable. Without this initial policy,
     # the VPC CNI fails to assign IPs and nodes cannot join the new cluster
-    # iam_role_attach_cni_policy = true
+    #iam_role_attach_cni_policy = true
   }
 
   eks_managed_node_groups = {
@@ -66,16 +73,20 @@ locals {
       ami_type = "BOTTLEROCKET_x86_64"
       platform = "bottlerocket"
 
-      min_size       = var.eks_managed_node_groups_min_size
-      desired_size   = var.eks_managed_node_groups_desired_size
-      max_size       = var.eks_managed_node_groups_max_size
       instance_types = var.whitelist_ec2_instance_types
-      capacity_type  = "ON_DEMAND"
-      disk_size      = var.eks_managed_node_groups_disk_size
+      # Not required nor used - avoid tagging two security groups with same tag as well
+      create_security_group = false
+
+      min_size     = var.eks_managed_node_groups_min_size
+      desired_size = var.eks_managed_node_groups_desired_size
+      max_size     = var.eks_managed_node_groups_max_size
+
+      capacity_type = "ON_DEMAND"
+      disk_size     = var.eks_managed_node_groups_disk_size
 
       iam_role_additional_policies = [
         # Required by Karpenter
-        "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+        "arn:${local.partition}:iam::aws:policy/AmazonSSMManagedInstanceCore"
       ]
 
       labels = merge({
@@ -119,7 +130,7 @@ locals {
       to_port     = 0
       type        = "ingress"
       self        = true
-    },
+    }
     ingress_allow_access_from_control_plane_to_non_priviledged_ports = {
       type                          = "ingress"
       protocol                      = "tcp"
@@ -127,7 +138,7 @@ locals {
       to_port                       = 65535
       source_cluster_security_group = true
       description                   = "Allow access from control plane to all non-priviledged ports"
-    },
+    }
     egress_all = {
       description      = "Node all egress"
       protocol         = "-1"
@@ -145,5 +156,4 @@ locals {
     # (i.e. - at most, only one security group should have this tag in your account)
     "karpenter.sh/discovery/${local.eks_cluster_name}" = local.eks_cluster_name
   }
-
 }
