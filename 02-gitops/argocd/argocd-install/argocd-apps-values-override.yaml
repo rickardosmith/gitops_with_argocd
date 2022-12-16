@@ -136,7 +136,7 @@ applicationsets:
       repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
       revision: HEAD
       directories:
-        - path: 03-applications/ecommerce
+        - path: 03-applications/ecommerce/*
   template:
     metadata:
       name: '{{path.basename}}'
