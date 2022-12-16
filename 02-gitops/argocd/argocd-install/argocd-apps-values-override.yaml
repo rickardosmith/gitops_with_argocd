@@ -79,6 +79,26 @@ applications:
         prune: true
         allowEmpty: true
         selfHeal: true
+  - name: ecommerce
+    namespace: argocd
+    destination:
+      namespace: ecommerce
+      server: https://kubernetes.default.svc
+    project: ecommerce
+    source:
+      path: 03-applications/ecommerce
+      repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+      targetRevision: HEAD
+      directory:
+        recurse: true
+        jsonnet: {}
+    syncPolicy:
+      syncOptions:
+      - CreateNamespace=true
+      automated:
+        prune: true
+        allowEmpty: true
+        selfHeal: true
   - name: monitoring
     namespace: argocd
     destination:
@@ -136,7 +156,7 @@ applicationsets:
       repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
       revision: HEAD
       directories:
-        - path: 03-applications/ecommerce/*/*
+        - path: 03-applications/ecommerce/*
   template:
     metadata:
       name: '{{path.basename}}'
@@ -148,6 +168,8 @@ applicationsets:
         repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
         targetRevision: HEAD
         path: '{{path}}'
+        directory:
+          recurse: true
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{path.basename}}'
