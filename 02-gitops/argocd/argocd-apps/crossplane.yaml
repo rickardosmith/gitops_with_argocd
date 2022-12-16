@@ -36,7 +36,7 @@ metadata:
   name: aws-config
   namespace: crossplane-system
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::113067560560:role/gitops-cluster-2022121316464815770000000a
+    eks.amazonaws.com/role-arn: arn:aws:iam::113067560560:role/gitops-cluster-20221216162910240300000003
 spec:
   podSecurityContext:
     fsGroup: 2000

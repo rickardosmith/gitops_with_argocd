@@ -28,15 +28,45 @@ resource "helm_release" "karpenter" {
   }
 }
 
-resource "helm_release" "metrics_server" {
+resource "helm_release" "kube_prometheus_stack" {
   depends_on = [
     module.eks
   ]
 
-  namespace = "kube-system"
+  namespace        = "monitoring"
+  create_namespace = true
 
-  name       = "metrics-server"
-  repository = "https://charts.bitnami.com/bitnami"
-  chart      = "metrics-server"
-  version    = "6.2.4"
+  name       = "kube-prometheus-stack"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-prometheus-stack"
+  version    = "43.1.0"
+}
+
+resource "helm_release" "kubernetes_dashboard" {
+  depends_on = [
+    module.eks
+  ]
+
+  namespace        = "kubernetes-dashboard"
+  create_namespace = true
+
+  name       = "kubernetes-dashboard"
+  repository = "https://kubernetes.github.io/dashboard"
+  chart      = "kubernetes-dashboard"
+  version    = "6.0.0"
+
+  set {
+    name  = "metricsScraper.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "metrics-server.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "metrics-server.args"
+    value = "{--kubelet-insecure-tls}"
+  }
 }

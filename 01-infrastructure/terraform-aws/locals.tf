@@ -49,7 +49,7 @@ locals {
   ## "authenticator"     // enabled by default
   ## "controllerManager" // disabled by default
   ## "scheduler"         // disabled by default
-  cluster_enabled_log_types = var.cluster_enabled_log_types
+  cluster_enabled_log_types = var.cluster_enabled_log_types //["audit","api","authenticator"]
 
   eks_managed_node_group_defaults = {
     disk_size      = 30
