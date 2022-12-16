@@ -36,11 +36,12 @@ applications:
       repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
       targetRevision: HEAD
     syncPolicy:
-      automated:
-        selfHeal: true
-        prune: true
       syncOptions:
       - CreateNamespace=true
+      automated:
+        prune: true
+        allowEmpty: true
+        selfHeal: true
   - name: argocd-appprojects
     namespace: argocd
     destination:
@@ -55,11 +56,12 @@ applications:
         recurse: true
         jsonnet: {}
     syncPolicy:
-      automated:
-        selfHeal: true
-        prune: true
       syncOptions:
       - CreateNamespace=true
+      automated:
+        prune: true
+        allowEmpty: true
+        selfHeal: true
   - name: management
     namespace: argocd
     destination:
@@ -71,11 +73,12 @@ applications:
       repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
       targetRevision: HEAD
     syncPolicy:
-      automated:
-        selfHeal: true
-        prune: true
       syncOptions:
       - CreateNamespace=true
+      automated:
+        prune: true
+        allowEmpty: true
+        selfHeal: true
   - name: monitoring
     namespace: argocd
     destination:
@@ -90,11 +93,12 @@ applications:
         recurse: true
         jsonnet: {}
     syncPolicy:
-      automated:
-        selfHeal: true
-        prune: true
       syncOptions:
       - CreateNamespace=true
+      automated:
+        prune: true
+        allowEmpty: true
+        selfHeal: true
 
 # -- Deploy Argo CD Projects within this helm release
 # @default -- `[]` (See [values.yaml])
@@ -152,7 +156,11 @@ applicationsets:
         namespace: '{{path.basename}}'
       syncPolicy:
         syncOptions:
-          - CreateNamespace=true
+        - CreateNamespace=true
+        automated:
+          prune: true
+          allowEmpty: true
+          selfHeal: true
   syncPolicy:
     # Set Application finalizer
     preserveResourcesOnDeletion: false
@@ -184,7 +192,11 @@ applicationsets:
         namespace: '{{path.basename}}'
       syncPolicy:
         syncOptions:
-          - CreateNamespace=true
+        - CreateNamespace=true
+        automated:
+          prune: true
+          allowEmpty: true
+          selfHeal: true
   syncPolicy:
     # Set Application finalizer
     preserveResourcesOnDeletion: false
@@ -216,7 +228,11 @@ applicationsets:
         namespace: monitoring
       syncPolicy:
         syncOptions:
-          - CreateNamespace=true
+        - CreateNamespace=true
+        automated:
+          prune: true
+          allowEmpty: true
+          selfHeal: true
   syncPolicy:
     # Set Application finalizer
     preserveResourcesOnDeletion: false
