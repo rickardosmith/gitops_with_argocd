@@ -9,3 +9,8 @@ provider "helm" {
     config_context = "minikube"
   }
 }
+
+provider "kubectl" {
+  config_path    = "~/.kube/config"
+  config_context = "minikube"
+}
