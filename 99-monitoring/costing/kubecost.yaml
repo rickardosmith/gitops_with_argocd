@@ -9,9 +9,9 @@ spec:
     server: https://kubernetes.default.svc
   project: monitoring
   source:
-    repoURL: 'https://mesosphere.github.io/charts/stable'
-    targetRevision: 0.29.0
-    chart: kubecost
+    repoURL: 'https://statcan.github.io/charts'
+    targetRevision: 1.82.2
+    chart: cost-analyzer
     helm:
       values: |
         cost-analyzer:
