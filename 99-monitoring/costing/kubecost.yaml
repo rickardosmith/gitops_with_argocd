@@ -15,19 +15,13 @@ spec:
     helm:
       values: |
         cost-analyzer:
-          enabled: true
           global:
             prometheus:
-              # If false, Prometheus will not be installed -- only actively supported on paid Kubecost plans
               enabled: true
-            thanos:
-              enabled: false
             grafana:
-              # If false, Grafana will not be installed
               enabled: true
             notifications:
               alertmanager:
-                # If true, allow kubecost to write to alertmanager
                 enabled: true
   syncPolicy:
     automated:
