@@ -16,7 +16,6 @@ spec:
       values: |
         cost-analyzer:
           enabled: true
-
           global:
             prometheus:
               # If false, Prometheus will not be installed -- only actively supported on paid Kubecost plans
@@ -34,6 +33,6 @@ spec:
     syncOptions:
     - CreateNamespace=true
     automated:
-      selfHeal: false
+      selfHeal: true
       prune: true
   revisionHistoryLimit: 3
