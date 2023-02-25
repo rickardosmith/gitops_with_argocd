@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
     targetRevision: HEAD
-    path: off/
+    path: 90-argocd-initialize/
   destination:
     name: in-cluster
     namespace: argocd
