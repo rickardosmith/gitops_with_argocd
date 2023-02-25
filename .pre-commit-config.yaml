@@ -1,6 +1,6 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
       - id: check-json
       - id: check-merge-conflict
@@ -18,7 +18,7 @@ repos:
           - --markdown-linebreak-ext=md
 
 - repo: https://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.75.0 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
+  rev: v1.77.1 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
   hooks:
     # - id: terraform_validate
     - id: terraform_fmt
