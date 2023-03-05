@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: php-apache
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: php-apache
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/rickardosmith/gitops_with_argocd.git
+    targetRevision: HEAD
+    path: 03-applications/web-application
+  destination:
+    name: in-cluster
+    namespace: default
+  revisionHistoryLimit: 3
